@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <%- include("partials/header.ejs") %>
+
+<%- include("partials/nav.ejs") %>
+<div class="container">
+    <center>
+        <h3>Cotizacion</h3>
+    </center>
+
+    <section class="formulario-container" style="padding: 20px;">
+        <div id="formulario" class="container">
+            <form action="/cotizacion" method="post" onsubmit="return validar()">
+
+                <div class="form-group">
+                    <label for="valor">Valor de automóvil:</label>
+                    <input type="number" name="valor" id="valor" value="<%=valor%>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pinicial">Porcentaje pago inicial:</label>
+                    <input type="number" name="pinicial" id="pinicial" value="<%=pinicial%>">
+                </div>
+
+                <div class="form-group">
+                    <label for="plazos">Plazos</label>
+                    <select name="plazos" id="plazos">
+                        <option value="12" <%=plazos === 12 ?'selected':''%>>12 meses</option>
+                        <option value="24" <%=plazos === 24 ?'selected':''%>>24 meses</option>
+                        <option value="36" <%=plazos === 36 ?'selected':''%>>36 meses</option>
+                        <option value="48" <%=plazos === 48 ?'selected':''%>>48 meses</option>
+                        <option value="60" <%=plazos === 60 ?'selected':''%>>60 meses</option>
+                    </select>
+                </div>
+
+                <div class="button" style="margin: 20px;">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <a href="/cotizacion" class="btn btn-primary">Limpiar</a>
+                </div>
+
+            </form>
+            <section class="container">
+                <hr>
+                <h2>Resultados</h2>
+                <hr>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Valor</th>
+                            <th>Pago inicial</th>
+                            <th>Total a financiar</th>
+                            <th>Pago mensual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                        if(valor)
+                        {
+                            let pagoInicial = valor * (pinicial/100);
+                            let totalfin = valor - pagoInicial;
+                            let pagoMensual = totalfin/plazos;
+                        %>
+                        <tr>
+                            <td><%=valor%></td>
+                            <td><%=pagoInicial%></td>
+                            <td><%=totalfin%></td>
+                            <td><%=pagoMensual%></td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </section>
+</div>
+<%- include("partials/footer.ejs") %>
+
+<script>
+    function validar()
+    {
+        var pinicial = document.getElementById('pinicial').value;
+        if (pinicial < 0) {
+            alert("El porcentaje debe de ser mayor a 0");
+            return false;
+        }
+        if (pinicial > 100) {
+            alert("El porcentaje debe de ser menor o igual a 100");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+</body>
+</html>

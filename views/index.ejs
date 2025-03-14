@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <title>NodeJS</title>
+</head>
+<body class="container">
+    <%- include("partials/heder.ejs") %>
+    <%- include("partials/nav.ejs") %>
+         <center>
+            <img src="/img/logoUpsin.png" alt="">
+            <br>
+            <br>
+            <h3><%=titulo%></h3>
+        </center>
+
+        <section>
+            <center>
+                <hr color="red">
+
+                <table class="table">
+                    <tr>
+                        <th>Matricula</th>
+                        <th>Nombre</th>
+                        <th>Sexo</th>
+                        <th>Materias</th>
+                    </tr>
+                    <%
+                    for(i=0;i<listado.length;++i){ %>
+                        <tr>
+                            <td><%=listado[i].matricula%></td>
+                            <td><%=listado[i].nombre%></td>
+                            <td><%=listado[i].sexo%></td>
+                            <td><%=listado[i].materias%></td>
+                        </tr>
+                     <% 
+                      }
+                    %>
+                </table>
+            </center>
+        </section>
+    </header>
+    <%- include("partials/footer.ejs") %>
+</body>
+</html>

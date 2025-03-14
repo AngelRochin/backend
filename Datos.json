@@ -1,0 +1,18 @@
+[{
+    "matricula": "2021030236",
+    "nombre": "Angel Joaquin Rochin Cristerna",
+    "sexo": "M",
+    "materias": ["programacion web", "Base de datos","Ingles"]
+},
+{
+    "matricula": "2021030237",
+    "nombre": "Joaquin Gusman Loera",
+    "sexo": "M",
+    "materias": ["programacion web", "Base de datos","Ingles"]
+},
+{
+    "matricula": "2021030238",
+    "nombre": "Angel Sandoval romero",
+    "sexo": "M",
+    "materias": ["programacion web", "Base de datos","Ingles"]
+}]
