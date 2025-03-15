@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <title><%= titulo %></title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="container">
+    <!-- Incluir header -->
+    <%- include("partials/header.ejs") %>
+
+    <!-- Incluir nav -->
+    <%- include("partials/nav.ejs") %>
+
+    <div class="container mt-4">
+        <div>
+            <form action="/filtrar" method="post" id="filtroForm">
+                <div class="form-group mb-3">
+                    <label for="nivel" class="form-label">Nivel</label>
+                    <select name="nivel" id="nivel" class="form-select">
+                        <option value="todos">Todos</option>
+                        <option value="primaria">Primaria</option>
+                        <option value="secundaria">Secundaria</option>
+                        <option value="preparatoria">Preparatoria</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="turno" class="form-label">Turno</label>
+                    <select name="turno" id="turno" class="form-select">
+                        <option value="todos">Todos</option>
+                        <option value="matutino">Matutino</option>
+                        <option value="vespertino">Vespertino</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="vista" class="form-label">Vista</label>
+                    <select name="vista" id="vista" class="form-select">
+                        <option value="detalle">Detalle</option>
+                        <option value="resumen">Resumen</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <button type="button" class="btn btn-secondary" onclick="limpiarTodo()">Limpiar</button>
+            </form>
+        </div>
+    </div>
+
+    <section class="container mt-4" id="seccionProductos">
+        <hr>
+        <h2 class="text-center">Listado de Alumnos</h2>
+        <hr>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Nivel</th>
+                    <th>Turno</th>
+                    <th>Calificación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (listado && listado.length > 0) { %>
+                    <% listado.forEach(alumno => { %>
+                        <tr>
+                            <td><%= alumno.nombre %></td>
+                            <td><%= alumno.nivel === 1 ? 'Primaria' : alumno.nivel === 2 ? 'Secundaria' : 'Preparatoria' %></td>
+                            <td><%= alumno.turno === 1 ? 'Matutino' : 'Vespertino' %></td>
+                            <td><%= alumno.calificacion %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4" class="text-center">No hay alumnos disponibles</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="container mt-4" id="seccionResultados">
+        <hr>
+        <h2 class="text-center">Resultados</h2>
+        <hr>
+        <% if (vista === 'resumen') { %>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Total de Alumnos</th>
+                    <th>Promedio General</th>
+                    <th>Menor o igual a 7</th>
+                    <th>Mayor o igual a 7</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= resumen.total %></td>
+                    <td><%= resumen.promedioGeneral %></td>
+                    <td><%= resumen.menorIgual7 %></td>
+                    <td><%= resumen.mayorIgual7 %></td>
+                </tr>
+            </tbody>
+        </table>
+        <% } %>
+    </section>
+
+    <!-- Incluir footer -->
+    <%- include("partials/footer.ejs") %>
+
+    <script>
+        function limpiarTodo() {
+            document.getElementById('nivel').value = 'todos';
+            document.getElementById('turno').value = 'todos';
+            document.getElementById('vista').value = 'detalle';
+            
+            document.getElementById('seccionProductos').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

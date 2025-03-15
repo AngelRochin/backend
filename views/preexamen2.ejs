@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <title>Examen Unidad II</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="container">
+    <%- include("partials/header.ejs") %>
+    <%- include("partials/nav.ejs") %>
+
+    <div class="container mt-4">
+        <div>
+            <form action="/examen" method="post" id="filtroForm">
+                <div class="form-group mb-3">
+                    <label for="tipo" class="form-label">Filtrar por Tipo</label>
+                    <select name="tipo" id="tipo" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="1">Tipo 1</option>
+                        <option value="2">Tipo 2</option>
+                        <option value="3">Tipo 3</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <button type="button" class="btn btn-secondary" onclick="limpiarTodo()">Limpiar</button>
+            </form>
+        </div>
+    </div>
+
+    <section class="container mt-4" id="seccionProductos">
+        <hr>
+        <h2 class="text-center">Listado de Productos</h2>
+        <hr>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Producto</th>
+                    <th>Costo</th>
+                    <th>Costo de Venta</th>
+                    <th>Cantidad</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (productos && productos.length > 0) { %>
+                    <% productos.forEach(producto => { %>
+                        <tr>
+                            <td><%= producto.producto %></td>
+                            <td>$<%= producto.costo.toFixed(2) %></td>
+                            <td>$<%= (producto.costo * 1.15).toFixed(2) %></td>
+                            <td><%= producto.cantidad %></td>
+                            <td><%= producto.tipo %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="5" class="text-center">No hay productos disponibles</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="container mt-4" id="seccionResultados">
+        <hr>
+        <h2 class="text-center">Resultados</h2>
+        <hr>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Sumatoria de Costo</th>
+                    <th>Sumatoria de Costo de Venta</th>
+                    <th>Cantidad Total de Productos</th>
+                    <th>Ganancia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="filaResultados">
+                    <td id="sumaCosto">$<%= sumatoriaCosto %></td>
+                    <td id="sumaCostoVenta">$<%= sumatoriaCostoVenta %></td>
+                    <td id="cantidadTotal"><%= cantidadTotal %></td>
+                    <td id="ganancia">$<%= ganancia %></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <%- include("partials/footer.ejs") %>
+
+    <script>
+        function limpiarTodo() {
+            document.getElementById('tipo').value = '';
+            
+            document.getElementById('seccionProductos').classList.add('hidden');
+            
+            document.getElementById('sumaCosto').textContent = '$0.00';
+            document.getElementById('sumaCostoVenta').textContent = '$0.00';
+            document.getElementById('cantidadTotal').textContent = '0';
+            document.getElementById('ganancia').textContent = '$0.00';
+            
+            return false;
+        }
+    </script>
+</body>
+</html>
